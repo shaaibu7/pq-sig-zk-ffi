@@ -18,11 +18,18 @@ pub extern "C" fn gen_keypair(
     let (pk, sk) = LeanSignatureScheme::key_gen(&mut rng, activation_epoch as usize, lifetime);
 
     let sig = LeanSignatureScheme::sign(&sk, signing_epoch, &message).unwrap();
+    
+    // signature verification
+    let is_valid_sig = LeanSignatureScheme::verify(&pk, signing_epoch, &message, &sig);
 
-    let pk_bytes = pk.to_bytes();
+    let pk_byte = pk.to_bytes();
     let sk_bytes = sk.to_bytes();
     let sig_bytes = sig.to_bytes();
+    
+    let _ = pk_byte;
+    let _ = sk_bytes;
 
     println!("The signature is: {:?}", sig_bytes);
-    println!("public key: {:?} , secret key {:?}", pk_bytes, sk_bytes);
+    
+    println!("The signature is valid: {}", is_valid_sig)
 }
