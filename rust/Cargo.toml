@@ -1,0 +1,15 @@
+[package]
+name = "pq-sig"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+rand = "0.9"
+tree_hash = "0.12.0"
+# XMSS signatures
+leansig = { git = "https://github.com/leanEthereum/leanSig.git", rev = "73bedc26ed961b110df7ac2e234dc11361a4bf25" }
+
+
+[lib]
+name = "multisig"
+crate-type = ["cdylib"]
