@@ -2,6 +2,7 @@ use leansig::{serialization::Serializable, signature::SignatureScheme};
 use rand::{SeedableRng, rngs::StdRng};
 
 
+
 #[unsafe(no_mangle)]
 pub extern "C" fn gen_keypair(
     seed: u64,
@@ -10,6 +11,11 @@ pub extern "C" fn gen_keypair(
 ) {
 
     type LeanSignatureScheme = leansig::signature::generalized_xmss::instantiations_poseidon_top_level::lifetime_2_to_the_32::hashing_optimized::SIGTopLevelTargetSumLifetime32Dim64Base8;
+    /// The public key type from the leansig library.
+    type LeanSigPublicKey = <LeanSignatureScheme as SignatureScheme>::PublicKey;
+    
+    /// The secret key type from the leansig library.
+    type LeanSigSecretKey = <LeanSignatureScheme as SignatureScheme>::SecretKey;
 
     let mut rng = StdRng::seed_from_u64(seed);
     let lifetime = 1 << 3;
@@ -28,8 +34,14 @@ pub extern "C" fn gen_keypair(
     
     let _ = pk_byte;
     let _ = sk_bytes;
-
-    println!("The signature is: {:?}", sig_bytes);
+    let _ = sig_bytes;
     
-    println!("The signature is valid: {}", is_valid_sig)
+    let pub_key = LeanSigPublicKey::from_bytes(&pk_byte).unwrap();
+    let secret_key = LeanSigSecretKey::from_bytes(&sk_bytes).unwrap();
+
+    
+    println!("The signature validity status is: {}", is_valid_sig);
+    println!("The public key data is: root {:?} parameter {:?}", pub_key.root(), pub_key.parameter())
+    
+    
 }
