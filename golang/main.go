@@ -15,6 +15,8 @@ void message_signing(
     uint32_t signing_epoch
 );
 
+void noop();
+
 void sig_verification(
     uint64_t seed,
     uint32_t activation_epoch,
@@ -23,25 +25,24 @@ void sig_verification(
 */
 import "C"
 
-import "fmt"
+func GenKeypair() {
+	C.gen_keypair(C.uint64_t(1), C.uint32_t(5))
+}
+
+func MessageSigning() {
+	C.message_signing(C.uint64_t(1), C.uint32_t(5), C.uint32_t(4))
+}
+
+func SigVerification() {
+	C.sig_verification(C.uint64_t(1), C.uint32_t(5), C.uint32_t(4))
+}
+
+func Noop() {
+	C.noop()
+}
 
 func main() {
-    C.gen_keypair(
-        C.uint64_t(1),
-        C.uint32_t(5),
-    )
-    
-    C.message_signing(
-        C.uint64_t(1),
-        C.uint32_t(5),
-        C.uint32_t(4),
-    )
-    
-    C.sig_verification(
-        C.uint64_t(1),
-        C.uint32_t(5),
-        C.uint32_t(4),
-    )
-
-    fmt.Println("gen_keypair called successfully")
+	GenKeypair()
+	MessageSigning()
+	SigVerification()
 }
