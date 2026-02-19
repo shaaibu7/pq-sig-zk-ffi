@@ -1,4 +1,4 @@
-# Post-Quantum Signature Project
+# Post-Quantum Signature
 
 A hybrid Rust/Go implementation for post-quantum cryptographic signatures using XMSS (eXtended Merkle Signature Scheme) with support for signature aggregation and verification via zkVM.
 
